@@ -124,6 +124,7 @@ class SettingsActivity : DuckDuckGoActivity(), SettingsAutomaticallyClearWhatFra
                 updateAutomaticClearDataOptions(it.automaticallyClearData)
                 changeAppIcon.setImageResource(it.appIcon.icon)
                 showSearchNotification(it.showSearchNotificationToggle)
+                showChangeAppIcon(it.changeAppIconEnabled)
             }
         })
 
@@ -148,6 +149,16 @@ class SettingsActivity : DuckDuckGoActivity(), SettingsAutomaticallyClearWhatFra
             searchNotificationToggle.show()
         } else {
             searchNotificationToggle.gone()
+        }
+    }
+
+    private fun showChangeAppIcon(enabled: Boolean) {
+        if (enabled) {
+            changeAppIcon.show()
+            changeAppIconLabel.show()
+        } else {
+            changeAppIcon.gone()
+            changeAppIconLabel.gone()
         }
     }
 

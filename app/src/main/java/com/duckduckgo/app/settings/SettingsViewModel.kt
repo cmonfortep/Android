@@ -49,8 +49,9 @@ class SettingsViewModel @Inject constructor(
         val lightThemeEnabled: Boolean = false,
         val autoCompleteSuggestionsEnabled: Boolean = true,
         val showSearchNotificationToggle: Boolean = false,
-        val searchNotificationEnabled: Boolean = false,
+        val searchNotificationEnabled: Boolean = true,
         val showDefaultBrowserSetting: Boolean = false,
+        val changeAppIconEnabled: Boolean = false,
         val isAppDefaultBrowser: Boolean = false,
         val automaticallyClearData: AutomaticallyClearData = AutomaticallyClearData(ClearWhatOption.CLEAR_NONE, ClearWhenOption.APP_EXIT_ONLY),
         val appIcon: AppIcon = AppIcon.DEFAULT
@@ -61,7 +62,6 @@ class SettingsViewModel @Inject constructor(
         val clearWhenOption: ClearWhenOption,
         val clearWhenOptionEnabled: Boolean = true
     )
-
 
     sealed class Command {
         object LaunchFeedback : Command()
@@ -95,6 +95,7 @@ class SettingsViewModel @Inject constructor(
             searchNotificationEnabled = settingsDataStore.searchNotificationEnabled,
             isAppDefaultBrowser = defaultBrowserAlready,
             showDefaultBrowserSetting = defaultWebBrowserCapability.deviceSupportsDefaultBrowserConfiguration(),
+            changeAppIconEnabled = !isRunningInstrumentationTests(),
             version = obtainVersion(variant.key),
             automaticallyClearData = AutomaticallyClearData(automaticallyClearWhat, automaticallyClearWhen, automaticallyClearWhenEnabled),
             appIcon = settingsDataStore.appIcon
@@ -128,10 +129,9 @@ class SettingsViewModel @Inject constructor(
     fun onSearchNotificationSettingChanged(enabled: Boolean) {
         Timber.i("User changed search notification setting, is now enabled: $enabled")
         settingsDataStore.searchNotificationEnabled = enabled
-        if (enabled){
+        if (enabled) {
             notificationScheduler.launchStickySearchNotification()
             pixel.fire(QUICK_SEARCH_NOTIFICATION_ENABLED)
-
         } else {
             notificationScheduler.dismissStickySearchNotification()
             pixel.fire(QUICK_SEARCH_NOTIFICATION_DISABLED)
@@ -212,5 +212,4 @@ class SettingsViewModel @Inject constructor(
     private fun isSearchNotificationFeatureEnabled(variant: Variant): Boolean {
         return variant.hasFeature(VariantManager.VariantFeature.StickySearchNotification)
     }
-
 }

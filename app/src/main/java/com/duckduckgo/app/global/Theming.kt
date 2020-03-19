@@ -74,5 +74,9 @@ fun DuckDuckGoActivity.sendThemeChangedBroadcast() {
 }
 
 private fun DuckDuckGoActivity.manifestThemeId(): Int {
-    return packageManager.getActivityInfo(componentName, 0).themeResource
+    return try {
+        packageManager.getActivityInfo(componentName, 0).themeResource
+    } catch (e: Exception){
+        R.style.AppTheme
+    }
 }
