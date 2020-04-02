@@ -1,0 +1,17 @@
+name: Issue Management
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  issue-opened:
+    name: Issue Opened
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label needs triage
+        uses: Naturalclar/issue-action@v1.0.0
+        with:
+          keywords: '[" "]'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          labels: '["help wanted"]'
