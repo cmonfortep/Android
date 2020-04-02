@@ -15,3 +15,10 @@ jobs:
           keywords: '[""]'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           labels: '["help wanted"]'
+      - name: Create comment
+        uses: jungwinter/comment@v1
+        id: create
+        with:
+          type: create
+          body: "Thanks. We will review it as soon as possible."
+          token: ${{ secrets.GITHUB_TOKEN }}
