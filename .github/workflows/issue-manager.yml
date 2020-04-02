@@ -12,6 +12,6 @@ jobs:
       - name: Label needs triage
         uses: Naturalclar/issue-action@v1.0.0
         with:
-          keywords: '[" "]'
+          keywords: '[""]'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           labels: '["help wanted"]'
